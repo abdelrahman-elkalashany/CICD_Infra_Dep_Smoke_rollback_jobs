@@ -54,4 +54,4 @@ workflows:
     jobs:
       #- myjob1
       #- create_infrastructure
-      - configure infrastructure
+      - configure_infrastructure
