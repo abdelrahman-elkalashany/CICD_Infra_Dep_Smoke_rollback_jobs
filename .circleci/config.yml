@@ -39,11 +39,12 @@ jobs:
      - run:
          name: Install Ansible
          command: |
-          apk add --update ansible  
+            apk add --update ansible  
           
      - run:
          name: Run Playbook and Configure server
-         command: ansible-playbook -i inventory main.yml
+         command: |
+            ansible-playbook -i inventory main.yml
           # Your command
 
 
