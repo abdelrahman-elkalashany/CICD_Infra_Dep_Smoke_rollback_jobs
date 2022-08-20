@@ -44,6 +44,7 @@ jobs:
      - run:
          name: Run Playbook and Configure server
          command: |
+            chmod 400 CICD_Key_PEM.pem
             ansible-playbook main.yml -i inventory --private-key CICD_Key_PEM.pem
           # Your command
           # ansible-playbook -i inventory main.yml
