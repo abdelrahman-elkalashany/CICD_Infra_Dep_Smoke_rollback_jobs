@@ -22,10 +22,21 @@ jobs:
       - run:
           #ame: Create Cloudformation Stack
           command: |
+            yum install -y tar gzip
             aws cloudformation deploy \
               --template-file template.yml \
-              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+              --stack-name myStack \
               --region us-east-1
+            echo "[web]" > inventory.txt
+            aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
+#           aws cloudformation deploy \
+#             --template-file template.yml \
+#             --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+#             --region us-east-1
+      - persist_to_workspace:
+          root: .
+          paths:
+            - inventory.txt
 
   # Exercise: Config and Deployment
   configure_infrastructure: 
@@ -52,11 +63,33 @@ jobs:
           #  chmod 400 CICD_Key_PEM.pem
           #  ansible-playbook main.yml -i inventory --private-key CICD_Key_PEM.pem
 
+  smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add --update curl
+      - run:
+          name: smoke test
+          command: |
+            URL="https://blog.udacity.com/"
+            # Test if website exists
+            if curl -s --head ${URL} 
+            then
+              return 0
+            else
+              return 1
+            fi
+            
 # Sequential workflow
 workflows:
   # Name the workflow
   myWorkflow:
     jobs:
       #- myjob1
-      #- create_infrastructure
-      - configure_infrastructure
+      - create_infrastructure
+      - configure_infrastructure:
+          requires:
+            - create_infrastructure
+      - smoke_test:
+          requires:
+            - configure_infrastructure
