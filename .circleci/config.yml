@@ -63,6 +63,15 @@ jobs:
           #  chmod 400 CICD_Key_PEM.pem
           #  ansible-playbook main.yml -i inventory --private-key CICD_Key_PEM.pem
 
+commands:
+  # Exercise - Rollback
+  destroy_environment:
+    steps:
+      - run:
+          name: Destroy environment
+          command: |
+            aws cloudformation delete-stack --stack-name myStack
+
   smoke_test:
     docker:
       - image: alpine:latest
@@ -71,15 +80,18 @@ jobs:
       - run:
           name: smoke test
           command: |
-            URL="https://blog.udacity123.com/"
+            URL="https://blog.udacity.com/"
             # Test if website exists
             if curl -s --head ${URL} 
             then
               echo "It worked!"
               return 0
             else
+              echo "Rolling Back"
               return 1
             fi
+      - destroy_environment:
+          when: on_fail
 
 # Sequential workflow
 workflows:
