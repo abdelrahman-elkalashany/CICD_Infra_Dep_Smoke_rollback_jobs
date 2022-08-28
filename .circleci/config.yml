@@ -11,6 +11,7 @@ commands:
     steps:
       - run:
           name: Destroy environment
+          when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name myStack
 
@@ -92,8 +93,7 @@ jobs:
               echo "Rolling Back"
               return 1
             fi
-      - destroy_environment:
-          when: on_fail
+      - destroy_environment
 
 # Sequential workflow
 workflows:
