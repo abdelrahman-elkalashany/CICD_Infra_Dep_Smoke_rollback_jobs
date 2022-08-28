@@ -80,14 +80,14 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run: apk add --update curl
+      #- run: apk add --update curl
       - run:
           name: smoke test  # can also simulate error "type non-exsited URL"
           command: |
-          
+
             yum install -y tar gzip
 
-            URL="https://blog.udacity123.com/"
+            URL="https://blog.udacity.com/"
             # Test if website exists
             if curl -s --head ${URL} 
             then
