@@ -80,7 +80,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run: yum add --check-update curl
+      - run: yum add check-update curl
       - run:
           name: smoke test  # can also simulate error "type non-exsited URL"
           command: |
