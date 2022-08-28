@@ -27,7 +27,7 @@ jobs:
               --template-file template.yml \
               --stack-name myStack \
               --region us-east-1
-            echo "[web]" > inventory.txt
+            echo "[all]" > inventory.txt
             aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
 #           aws cloudformation deploy \
 #             --template-file template.yml \
@@ -75,6 +75,7 @@ jobs:
             # Test if website exists
             if curl -s --head ${URL} 
             then
+              echo "It worked!"
               return 0
             else
               return 1
