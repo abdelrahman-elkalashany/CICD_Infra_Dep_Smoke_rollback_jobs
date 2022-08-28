@@ -82,23 +82,10 @@ jobs:
       - checkout
       - run: yum check-update curl
       - run:
-          name: Smoke test
+          name: smoke test  # can also simulate error "type non-exsited URL"
           command: |
-            URL="https://blog.udacity.com"
-            if curl -s --head ${URL}
-            then
-              echo "It worked!"
-              return 0  #this one make the workflow fail i think bec. python not installed
-            else
-              echo "Rolling Back"
-              return 1
-            fi
-#      - run:
-#          name: smoke test  # can also simulate error "type non-exsited URL"
-#          command: |
-#
+            sh CurlURL.sh
 #            yum install -y tar gzip
-#
 #            URL="https://blog.udacity.com/"
 #            # Test if website exists
 #            if curl -s --head ${URL} 
