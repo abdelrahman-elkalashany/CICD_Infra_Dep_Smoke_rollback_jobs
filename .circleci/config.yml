@@ -84,7 +84,6 @@ jobs:
       - run:
           name: smoke test  # can also simulate error "type non-exsited URL"
           command: |
-            chmod +x CurlURL.sh
             sh CurlURL.sh
 #            yum install -y tar gzip
 #            URL="https://blog.udacity.com/"
