@@ -1,4 +1,4 @@
-#!/bin/sh
+!/bin/sh
 URL="https://blog.udacity.com/"
 # Test if website exists
 if curl -s --head ${URL} 
