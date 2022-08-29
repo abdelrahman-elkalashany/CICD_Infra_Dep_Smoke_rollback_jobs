@@ -1,5 +1,5 @@
 #!/bin/sh
-URL="https://blog.udacity.com/"
+URL="https://blog.udacity123.com/"
 # Test if website exists
 if curl -s --head ${URL} 
 then
